@@ -16,7 +16,6 @@ async def menu_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "• <b>Settings</b> - Customize your experience\n"
         "• <b>About RAG</b> - Learn about the technology\n"
         "• <b>Examples</b> - See what you can ask\n"
-        "• <b>Usage Stats</b> - View your usage statistics\n"
         "• <b>Restart</b> - Start a fresh conversation"
     )
     
@@ -78,13 +77,17 @@ async def show_help_action(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Show help menu from reply keyboard"""
     text = (
         "❓ <b>Help Center</b>\n\n"
-        "Get help with using your RAG bot:\n\n"
-        "• <b>Getting Started</b> - Basic usage guide\n"
-        "• <b>Chat Commands</b> - Available commands\n"
-        "• <b>Features</b> - What the bot can do\n"
-        "• <b>Troubleshooting</b> - Common issues\n\n"
-        "💡 <i>Choose a topic below or just start asking questions!</i>"
+        "This chat is here to help you whenever you need. "
+        "Simply type your questions or share what you’re looking for, "
+        "and I’ll do my best to guide and support you. "
+        "Our conversation itself is the help — no complicated steps, just ask and get answers."
     )
+
+    await update.message.reply_text(
+        text=text,
+        parse_mode="HTML"
+    )
+
     
     await update.message.reply_text(
         text=text,
@@ -150,24 +153,6 @@ async def show_examples_action(update: Update, context: ContextTypes.DEFAULT_TYP
         text=text,
         reply_markup=InlineKeyboards.examples_menu(),
         parse_mode='HTML'
-    )
-
-
-async def show_stats_action(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Show stats from reply keyboard"""
-    user_id = update.effective_user.id
-    text = (
-        "📊 <b>Usage Statistics</b>\n\n"
-        f"👤 <b>User ID:</b> {user_id}\n"
-        "💬 <b>Messages sent:</b> 42\n"
-        "❓ <b>Questions asked:</b> 38\n"
-        "📚 <b>Documents referenced:</b> 15\n"
-        "⏱️ <b>Average response time:</b> 2.3s\n"
-        "📅 <b>Last active:</b> Today\n\n"
-        "🎯 <b>Most common topics:</b>\n"
-        "• Technology (45%)\n"
-        "• Science (30%)\n"
-        "• General Knowledge (25%)"
     )
     
     await update.message.reply_text(

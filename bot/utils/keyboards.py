@@ -36,14 +36,6 @@ class InlineKeyboards:
         """Create help menu inline keyboard"""
         keyboard = [
             [
-                InlineKeyboardButton("🚀 Getting Started", callback_data="help_getting_started"),
-                InlineKeyboardButton("💬 Chat Commands", callback_data="help_commands")
-            ],
-            [
-                InlineKeyboardButton("📋 Features", callback_data="help_features"),
-                InlineKeyboardButton("🔧 Troubleshooting", callback_data="help_troubleshooting")
-            ],
-            [
                 InlineKeyboardButton("🏠 Back to Main", callback_data="main_menu")
             ]
         ]
@@ -54,16 +46,7 @@ class InlineKeyboards:
         """Create settings menu inline keyboard"""
         keyboard = [
             [
-                InlineKeyboardButton("🔔 Notifications", callback_data="settings_notifications"),
                 InlineKeyboardButton("🌐 Language", callback_data="settings_language")
-            ],
-            [
-                InlineKeyboardButton("📝 Response Style", callback_data="settings_response_style"),
-                InlineKeyboardButton("🎯 RAG Settings", callback_data="settings_rag")
-            ],
-            [
-                InlineKeyboardButton("💾 Export Data", callback_data="settings_export"),
-                InlineKeyboardButton("🗑️ Clear History", callback_data="settings_clear")
             ],
             [
                 InlineKeyboardButton("🏠 Back to Main", callback_data="main_menu")
@@ -92,17 +75,17 @@ class InlineKeyboards:
     def examples_menu() -> InlineKeyboardMarkup:
         """Create examples menu inline keyboard"""
         keyboard = [
-            [
-                InlineKeyboardButton("📖 Ask about Documents", callback_data="example_documents"),
-                InlineKeyboardButton("🔍 Search Information", callback_data="example_search")
-            ],
-            [
-                InlineKeyboardButton("💡 General Questions", callback_data="example_general"),
-                InlineKeyboardButton("🔗 Related Topics", callback_data="example_related")
-            ],
-            [
-                InlineKeyboardButton("🏠 Back to Main", callback_data="main_menu")
-            ]
+             [
+            InlineKeyboardButton("💻 What is Phishing?", callback_data="example_phishing"),
+            InlineKeyboardButton("🔒 How to protect data?", callback_data="example_data_protection")
+        ],
+        [
+            InlineKeyboardButton("📧 What is PDPA?", callback_data="example_pdpa"),
+            InlineKeyboardButton("🛡️ What is Cyber Law?", callback_data="example_cyberlaw")
+        ],
+        [
+            InlineKeyboardButton("🏠 Back to Main", callback_data="main_menu")
+        ]
         ]
         return InlineKeyboardMarkup(keyboard)
 
@@ -111,7 +94,7 @@ class InlineKeyboards:
         """Create status menu with external links"""
         return InlineKeyboardMarkup([
             [InlineKeyboardButton("📱 Android App", url="https://play.google.com/store/apps/details?id=your.app.id")],
-            [InlineKeyboardButton("🌐 Web Version", url="https://yourwebapp.com")],
+            [InlineKeyboardButton("🌐 Web Version", url="https://pivot1.vercel.app/chat")],
             [InlineKeyboardButton("⬅️ Back", callback_data="main_menu")]
         ])
 
