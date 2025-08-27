@@ -14,20 +14,15 @@ class InlineKeyboards:
         """Create main menu inline keyboard"""
         keyboard = [
             [
-                InlineKeyboardButton("❓ Help", callback_data="help"),
-                InlineKeyboardButton("⚙️ Settings", callback_data="settings")
+                InlineKeyboardButton("❓ How to Use", callback_data="help"),
+                InlineKeyboardButton("⚡ Better Performance", callback_data="status")
+                
             ],
             [
                 InlineKeyboardButton("📚 About RAG", callback_data="about_rag"),
                 InlineKeyboardButton("💡 Examples", callback_data="examples")
             ],
-            [
-                InlineKeyboardButton("📊 Usage Stats", callback_data="stats"),
-                InlineKeyboardButton("📡 Status", callback_data="status")  # Status button added
-            ],
-            [
-                InlineKeyboardButton("🔄 Restart", callback_data="restart")
-            ]
+            
         ]
         return InlineKeyboardMarkup(keyboard)
 
@@ -41,18 +36,7 @@ class InlineKeyboards:
         ]
         return InlineKeyboardMarkup(keyboard)
 
-    @staticmethod
-    def settings_menu() -> InlineKeyboardMarkup:
-        """Create settings menu inline keyboard"""
-        keyboard = [
-            [
-                InlineKeyboardButton("🌐 Language", callback_data="settings_language")
-            ],
-            [
-                InlineKeyboardButton("🏠 Back to Main", callback_data="main_menu")
-            ]
-        ]
-        return InlineKeyboardMarkup(keyboard)
+ 
 
     @staticmethod
     def confirmation_menu(action: str) -> InlineKeyboardMarkup:
@@ -106,10 +90,10 @@ class ReplyKeyboards:
     def main_menu() -> ReplyKeyboardMarkup:
         """Create main menu reply keyboard"""
         keyboard = [
-            ["❓ Help", "⚙️ Settings"],
+            ["❓ How to Use"],
             ["📚 About RAG", "💡 Examples"],
-            ["📊 Stats", "📡 Status"],  # Added Status here
-            ["🔄 Restart"]
+            ["⚡ Best Performance"],  # Added Status here
+            
         ]
         return ReplyKeyboardMarkup(
             keyboard,
