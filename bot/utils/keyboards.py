@@ -11,18 +11,19 @@ class InlineKeyboards:
 
     @staticmethod
     def main_menu() -> InlineKeyboardMarkup:
-        """Create main menu inline keyboard"""
+        """Create main menu inline keyboard in Burmese"""
         keyboard = [
             [
-                InlineKeyboardButton("❓ How to Use", callback_data="help"),
-                InlineKeyboardButton("⚡ Better Performance", callback_data="status")
-                
+                InlineKeyboardButton("📝 စာသားဖြင့် မေးမြန်းခြင်း", callback_data="text_usage"),
+                InlineKeyboardButton("📂 ဖိုင်များဖြင့် မေးမြန်းခြင်း", callback_data="file_usage")
             ],
             [
-                InlineKeyboardButton("📚 About RAG", callback_data="about_rag"),
-                InlineKeyboardButton("💡 Examples", callback_data="examples")
+                InlineKeyboardButton("🎤 အသံဖြင့် မေးမြန်းခြင်း", callback_data="voice_usage"),
+                InlineKeyboardButton("ℹ️ ရည်ရွယ်ချက်", callback_data="purpose")
             ],
-            
+            [
+                InlineKeyboardButton("📱 ပိုကောင်းတဲ့ အတွေ့အကြုံ", callback_data="better_experience")
+            ]
         ]
         return InlineKeyboardMarkup(keyboard)
 
@@ -56,29 +57,112 @@ class InlineKeyboards:
         return InlineKeyboardMarkup(keyboard)
 
     @staticmethod
-    def examples_menu() -> InlineKeyboardMarkup:
-        """Create examples menu inline keyboard"""
+    def cybersecurity_menu() -> InlineKeyboardMarkup:
+        """Create cybersecurity submenu"""
         keyboard = [
-             [
-            InlineKeyboardButton("💻 What is Phishing?", callback_data="example_phishing"),
-            InlineKeyboardButton("🔒 How to protect data?", callback_data="example_data_protection")
-        ],
-        [
-            InlineKeyboardButton("📧 What is PDPA?", callback_data="example_pdpa"),
-            InlineKeyboardButton("🛡️ What is Cyber Law?", callback_data="example_cyberlaw")
-        ],
-        [
-            InlineKeyboardButton("🏠 Back to Main", callback_data="main_menu")
-        ]
+            [
+                InlineKeyboardButton("🎯 Threat Assessment", callback_data="cyber_threats"),
+                InlineKeyboardButton("🛡️ Security Policies", callback_data="cyber_policies")
+            ],
+            [
+                InlineKeyboardButton("👥 Employee Training", callback_data="cyber_training"),
+                InlineKeyboardButton("🚨 Incident Response", callback_data="cyber_incident")
+            ],
+            [
+                InlineKeyboardButton("📋 Compliance Frameworks", callback_data="cyber_compliance"),
+                InlineKeyboardButton("🏠 Back to Main", callback_data="main_menu")
+            ]
         ]
         return InlineKeyboardMarkup(keyboard)
 
     @staticmethod
-    def status_menu() -> InlineKeyboardMarkup:
-        """Create status menu with external links"""
+    def legal_menu() -> InlineKeyboardMarkup:
+        """Create legal compliance submenu"""
+        keyboard = [
+            [
+                InlineKeyboardButton("🏢 Business Setup", callback_data="legal_business"),
+                InlineKeyboardButton("📄 Contracts", callback_data="legal_contracts")
+            ],
+            [
+                InlineKeyboardButton("💡 Intellectual Property", callback_data="legal_ip"),
+                InlineKeyboardButton("📊 Regulations", callback_data="legal_regulations")
+            ],
+            [
+                InlineKeyboardButton("👨‍💼 Employment Law", callback_data="legal_employment"),
+                InlineKeyboardButton("🏠 Back to Main", callback_data="main_menu")
+            ]
+        ]
+        return InlineKeyboardMarkup(keyboard)
+
+    @staticmethod
+    def privacy_menu() -> InlineKeyboardMarkup:
+        """Create privacy & data protection submenu"""
+        keyboard = [
+            [
+                InlineKeyboardButton("🇪🇺 GDPR Compliance", callback_data="privacy_gdpr"),
+                InlineKeyboardButton("🇸🇬 PDPA Requirements", callback_data="privacy_pdpa")
+            ],
+            [
+                InlineKeyboardButton("📋 Privacy Policies", callback_data="privacy_policies"),
+                InlineKeyboardButton("🗺️ Data Mapping", callback_data="privacy_mapping")
+            ],
+            [
+                InlineKeyboardButton("✅ Consent Management", callback_data="privacy_consent"),
+                InlineKeyboardButton("🚨 Breach Response", callback_data="privacy_breach")
+            ],
+            [
+                InlineKeyboardButton("🏠 Back to Main", callback_data="main_menu")
+            ]
+        ]
+        return InlineKeyboardMarkup(keyboard)
+
+    @staticmethod
+    def quick_actions_menu() -> InlineKeyboardMarkup:
+        """Create quick actions submenu"""
+        keyboard = [
+            [
+                InlineKeyboardButton("📋 GDPR Checklist", callback_data="template_gdpr_checklist"),
+                InlineKeyboardButton("🔒 Security Audit", callback_data="template_security_audit")
+            ],
+            [
+                InlineKeyboardButton("🏢 Startup Legal Kit", callback_data="template_startup_legal"),
+                InlineKeyboardButton("📄 Privacy Policy", callback_data="template_privacy_policy")
+            ],
+            [
+                InlineKeyboardButton("📊 DPA Template", callback_data="template_dpa"),
+                InlineKeyboardButton("🚨 Incident Report", callback_data="template_incident")
+            ],
+            [
+                InlineKeyboardButton("🏠 Back to Main", callback_data="main_menu")
+            ]
+        ]
+        return InlineKeyboardMarkup(keyboard)
+
+    @staticmethod
+    def emergency_menu() -> InlineKeyboardMarkup:
+        """Create emergency response submenu"""
+        keyboard = [
+            [
+                InlineKeyboardButton("🚨 Data Breach Guide", callback_data="emergency_breach"),
+                InlineKeyboardButton("⚠️ Cyber Attack Response", callback_data="emergency_attack")
+            ],
+            [
+                InlineKeyboardButton("📞 Legal Emergency", callback_data="emergency_legal"),
+                InlineKeyboardButton("🔍 Compliance Violation", callback_data="emergency_compliance")
+            ],
+            [
+                InlineKeyboardButton("🏠 Back to Main", callback_data="main_menu")
+            ]
+        ]
+        return InlineKeyboardMarkup(keyboard)
+
+    @staticmethod
+    def better_apps_menu() -> InlineKeyboardMarkup:
+        """Create better apps menu with external links"""
         return InlineKeyboardMarkup([
-            [InlineKeyboardButton("📱 Android App", url="https://play.google.com/store/apps/details?id=your.app.id")],
+            [InlineKeyboardButton("📱 Mobile App", url="https://play.google.com/store/apps/details?id=your.app.id")],
             [InlineKeyboardButton("🌐 Web Version", url="https://pivot1.vercel.app/chat")],
+            [InlineKeyboardButton("💡 Why Better?", callback_data="why_better_apps")],
             [InlineKeyboardButton("⬅️ Back", callback_data="main_menu")]
         ])
 
@@ -88,18 +172,18 @@ class ReplyKeyboards:
 
     @staticmethod
     def main_menu() -> ReplyKeyboardMarkup:
-        """Create main menu reply keyboard"""
+        """Create main menu reply keyboard in Burmese"""
         keyboard = [
-            ["❓ How to Use"],
-            ["📚 About RAG", "💡 Examples"],
-            ["⚡ Best Performance"],  # Added Status here
-            
+            ["📝 စာသားဖြင့် မေးမြန်းခြင်း", "📂 ဖိုင်များဖြင့် မေးမြန်းခြင်း"],
+            ["🎤 အသံဖြင့် မေးမြန်းခြင်း", "ℹ️ ရည်ရွယ်ချက်"],
+            ["📱 ပိုကောင်းတဲ့ အတွေ့အကြုံ"],
+            ["📋 Menu", "❌ Hide Keyboard"]
         ]
         return ReplyKeyboardMarkup(
             keyboard,
             resize_keyboard=True,
             one_time_keyboard=False,
-            input_field_placeholder="Choose an option or type your question..."
+            input_field_placeholder="ဘာမေးခွန်းမေးနိုင်ပါတယ်..."
         )
 
     @staticmethod

@@ -1,0 +1,140 @@
+"""
+Menu command handler and menu utilities
+"""
+
+from telegram import Update, ReplyKeyboardRemove
+from telegram.ext import ContextTypes
+from bot.utils.keyboards import InlineKeyboards, ReplyKeyboards
+
+
+async def menu_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handle /menu command - show main navigation menu"""
+    text = (
+    "📋 <b>Main Menu</b>\n\n"
+    "Welcome to your RAG-powered Telegram bot! Choose an option below:\n\n"
+    "• <b>Help</b> - Get assistance and tutorials\n"
+    "• <b>About RAG</b> - Learn about the technology\n"
+    "• <b>Examples</b> - See what you can ask\n"
+    "• <b>Better Performance</b> - Tips to improve responses\n\n"
+    )
+    
+    await update.message.reply_text(
+        text=text,
+        reply_markup=InlineKeyboards.main_menu(),
+        parse_mode='HTML'
+    )
+
+
+async def show_reply_keyboard(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Show reply keyboard menu"""
+    text = (
+        "📱 <b>Quick Access Menu</b>\n\n"
+        "Use the keyboard buttons below for quick access to common features!\n\n"
+        "💡 <i>You can also type any question directly.</i>"
+    )
+    
+    await update.message.reply_text(
+        text=text,
+        reply_markup=ReplyKeyboards.main_menu(),
+        parse_mode='HTML'
+    )
+
+
+async def hide_keyboard(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Hide the reply keyboard"""
+    await update.message.reply_text(
+        "✅ Keyboard hidden. You can bring it back anytime with /keyboard",
+        reply_markup=ReplyKeyboardRemove()
+    )
+
+
+async def handle_reply_keyboard_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handle reply keyboard button presses (text messages that match keyboard buttons)"""
+    text = update.message.text
+    
+    # Map reply keyboard buttons to actions
+    button_actions = {
+        "❓ Help": show_help_action,
+        "📚 About RAG": show_about_rag_action,
+        "💡 Examples": show_examples_action,
+        "📋 Menu": menu_command,
+        "❌ Hide Keyboard": hide_keyboard
+    }
+    
+    # Check if the message matches any reply keyboard button
+    if text in button_actions:
+        await button_actions[text](update, context)
+        return True
+    
+    return False
+
+
+async def show_help_action(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Show help menu from reply keyboard"""
+    text = (
+        "❓ <b>Help Center</b>\n\n"
+        "This chat is here to help you whenever you need. "
+        "Simply type your questions or share what you’re looking for, "
+        "and I’ll do my best to guide and support you. "
+        "Our conversation itself is the help — no complicated steps, just ask and get answers."
+    )
+
+    await update.message.reply_text(
+        text=text,
+        parse_mode="HTML"
+    )
+
+    
+    await update.message.reply_text(
+        text=text,
+        reply_markup=InlineKeyboards.help_menu(),
+        parse_mode='HTML'
+    )
+
+
+
+async def show_about_rag_action(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Show about RAG from reply keyboard"""
+    text = (
+        "📚 <b>About RAG (Retrieval-Augmented Generation)</b>\n\n"
+        "RAG is an AI technique that combines:\n\n"
+        "🔍 <b>Retrieval</b> - Finding relevant information from a knowledge base\n"
+        "🧠 <b>Generation</b> - Creating natural language responses\n\n"
+        "This allows the bot to:\n"
+        "• Access up-to-date information\n"
+        "• Provide accurate, contextual answers\n"
+        "• Reference specific documents or sources\n"
+        "• Maintain consistency across conversations\n\n"
+        "Your queries are processed through this system to give you the most relevant and accurate responses possible!"
+    )
+    
+    await update.message.reply_text(
+        text=text,
+        reply_markup=InlineKeyboards.back_button(),
+        parse_mode='HTML'
+    )
+
+
+async def show_examples_action(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Show examples menu from reply keyboard"""
+    text = (
+        "💡 <b>Example Queries</b>\n\n"
+        "Here are some types of questions you can ask:\n\n"
+        "• <b>Document Questions</b> - Ask about specific documents\n"
+        "• <b>Search Information</b> - Find specific facts or data\n"
+        "• <b>General Questions</b> - Broad topic inquiries\n"
+        "• <b>Related Topics</b> - Explore connected subjects"
+    )
+    
+    await update.message.reply_text(
+        text=text,
+        reply_markup=InlineKeyboards.examples_menu(),
+        parse_mode='HTML'
+    )
+    
+    await update.message.reply_text(
+        text=text,
+        reply_markup=InlineKeyboards.back_button(),
+        parse_mode='HTML'
+    )
+
