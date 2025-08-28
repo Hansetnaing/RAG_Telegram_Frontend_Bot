@@ -1,45 +1,53 @@
-"""
-Chat message handler for Legal Compliance & Cybersecurity RAG Bot
-Handles text, voice, audio, photos, and document messages
-"""
-
-import logging
 import re
-from telegram import Update
-from telegram.ext import ContextTypes
-from bot.services.rag_api import query_text, query_text_with_file, speech_to_text
-
-logger = logging.getLogger(__name__)
-
 
 def escape_markdown_v2(text: str) -> str:
     """
-    Escape all Telegram MarkdownV2 special characters to prevent parsing errors.
+    Escape Telegram MarkdownV2 special characters except those used for valid formatting.
+    - Preserves **bold**, *italic*, and bullet points.
+    - Escapes other unsafe characters.
     """
     if not isinstance(text, str):
         text = str(text)
-    
-    # List of all MarkdownV2 special characters that need escaping
-    escape_chars = ['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!']
-    
-    # Escape each special character
-    for char in escape_chars:
+    # Escape all MarkdownV2 special chars except asterisks used for bold/italic and bullets
+    # Do not escape asterisks that are part of **bold** or *italic* or at start of line (bullets)
+    # Escape: _ [ ] ( ) ~ ` > # + - = | { } . !
+    # First, escape all except *, then handle *
+    escape_chars = r'_ [ ] ( ) ~ ` > # + - = | { } . !'
+    for char in escape_chars.split():
         text = text.replace(char, f'\\{char}')
-    
+    # Now escape asterisks not part of bold/italic or bullet
+    # Replace single * not surrounded by word chars or at start of line
+    def asterisk_replacer(match):
+        s = match.group(0)
+        # If it's ** or * at start of line, don't escape
+        if s == '**' or s == '*' or s.startswith('* '):
+            return s
+        return '\*'
+    # Escape single * not part of **bold** or *italic* or bullet
+    text = re.sub(r'(?<!\*)\*(?!\*)', asterisk_replacer, text)
     return text
+from datetime import datetime
+import random
+from telegram import Update
+from telegram.ext import ContextTypes
+from bot.services.rag_api import query_text, query_text_with_file, speech_to_text  # remove upload_file
 
+import logging
+
+from pathlib import Path
+
+from bot.utils import logger
 
 async def chat_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Handle incoming chat messages (text, voice, audio, photos, documents)"""
-    print("Chat message received 🍕🍕🍕🍕🍕", update.message)
+    
     message = update.message
     logging.info(f"Message type: {type(message)}")
     logging.info(f"Voice: {message.voice}")
     logging.info(f"Audio: {message.audio}")
     logging.info(f"Document: {message.document}")
-    logging.info(f"Photo: {message.photo}")
     logging.info(f"Text: {message.text}")
     logging.info(f"Caption: {message.caption}")
+    
 
     try:
         await context.bot.send_chat_action(chat_id=update.effective_chat.id, action="typing")
@@ -61,25 +69,7 @@ async def chat_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 await message.reply_text(f"🗣️ {transcription}\n\n{response_text}", parse_mode="MarkdownV2")
             return
 
-        # 2. Photo (image)
-        if message.photo:
-            logging.info("Processing photo message")
-            # Get the largest photo size
-            photo = message.photo[-1]
-            file_obj = await photo.get_file()
-            file_bytes = await file_obj.download_as_bytearray()
-            filename = f"image_{photo.file_id}.jpg"
-            # Photo with caption (text + image)
-            query = message.caption if message.caption else "What do you see in this image?"
-            response = await query_text_with_file(query, bytes(file_bytes), filename)
-            if isinstance(response, dict):
-                reply = response.get("response", str(response))
-            else:
-                reply = str(response)
-            await message.reply_text(escape_markdown_v2(reply), parse_mode="MarkdownV2")
-            return
-
-        # 3. File (document)
+        # 2. File (document)
         if message.document:
             logging.info("Processing document message")
             file_obj = await message.document.get_file()
@@ -103,8 +93,8 @@ async def chat_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await message.reply_text(escape_markdown_v2(response), parse_mode="MarkdownV2")
             return
 
-        # 5. Unsupported
-        await message.reply_text(escape_markdown_v2("❌ Unsupported message type. Please send text, an image, a document, or an audio message."), parse_mode="MarkdownV2")
+        # 4. Unsupported
+        await message.reply_text(escape_markdown_v2("❌ Unsupported message type. Please send text, a document, or an audio message."), parse_mode="MarkdownV2")
     except Exception as e:
         logging.error(f"Error in chat_message: {e}")
         await message.reply_text(escape_markdown_v2("❌ Sorry, something went wrong. Please try again later."), parse_mode="MarkdownV2")
